@@ -11,4 +11,7 @@ public interface ClienteService {
         Cliente updateCliente(Long id, Cliente cliente);
         Cliente deleteCliente(Long id);
 
+        Cliente getClienteByCpf(String cpf);
+
+        Cliente updateClienteByCpf(String cpf, Cliente cliente);
 }

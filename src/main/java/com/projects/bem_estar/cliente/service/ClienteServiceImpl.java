@@ -3,6 +3,7 @@ package com.projects.bem_estar.cliente.service;
 import com.projects.bem_estar.cliente.model.Cliente;
 import com.projects.bem_estar.cliente.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,7 +32,11 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public Cliente createCliente(Cliente cliente) {
-        return clienteRepository.save(cliente);
+        try {
+            return clienteRepository.save(cliente);
+        } catch (DataIntegrityViolationException ex) {
+            return null;
+        }
     }
 
     @Override
@@ -40,7 +45,6 @@ public class ClienteServiceImpl implements ClienteService {
         if (existingCliente != null) {
             existingCliente.setName(cliente.getName());
             existingCliente.setEmail(cliente.getEmail());
-            existingCliente.setCpf(cliente.getCpf());
             existingCliente.setPassword(cliente.getPassword());
             return clienteRepository.save(existingCliente);
         }
@@ -50,6 +54,24 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public Cliente deleteCliente(Long id) {
         clienteRepository.deleteById(id);
+        return null;
+    }
+
+    @Override
+    public Cliente getClienteByCpf(String cpf) {
+        Optional<Cliente> optionalCliente = clienteRepository.findByCpf(cpf);
+        return optionalCliente.orElse(null);
+    }
+
+    @Override
+    public Cliente updateClienteByCpf(String cpf, Cliente cliente) {
+        Cliente existingCliente = getClienteByCpf(cpf);
+        if (existingCliente != null) {
+            existingCliente.setName(cliente.getName());
+            existingCliente.setEmail(cliente.getEmail());
+            existingCliente.setPassword(cliente.getPassword());
+            return clienteRepository.save(existingCliente);
+        }
         return null;
     }
 }
