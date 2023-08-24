@@ -69,7 +69,7 @@ public class NutricionistaServiceImpl implements NutricionistaService {
     }
 
     @Override
-    public Nutricionista getNutricionistaByRegiao_crn(Long regiao_crn) {
+    public List<Nutricionista> getNutricionistaByRegiao_crn(Long regiao_crn) {
         return nutricionistaRepository.findByRegiao_crn(regiao_crn);
     }
 }

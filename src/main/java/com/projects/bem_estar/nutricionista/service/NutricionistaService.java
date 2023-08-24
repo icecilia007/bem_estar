@@ -12,5 +12,5 @@ public interface NutricionistaService {
     void deleteNutricionista(Long id);
     Nutricionista getNutricionistaByEmail(String email);
     Nutricionista getNutricionistaByInscricao(String inscricao);
-    Nutricionista getNutricionistaByRegiao_crn(Long regiao_crn);
+    List<Nutricionista> getNutricionistaByRegiao_crn(Long regiao_crn);
 }

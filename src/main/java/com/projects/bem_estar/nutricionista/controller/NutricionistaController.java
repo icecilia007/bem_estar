@@ -34,6 +34,22 @@ public class NutricionistaController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+    @GetMapping("/inscricao/{inscricao}")
+    public ResponseEntity<Nutricionista> getNutricionistaById(@PathVariable String inscricao) {
+        Nutricionista nutricionista = nutricionistaService.getNutricionistaByInscricao(inscricao);
+        if (nutricionista != null) {
+            return new ResponseEntity<>(nutricionista, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    @GetMapping("/regiao_crn/{regiao_crn}")
+    public ResponseEntity<List<Nutricionista>> getNutricionistaByRegiao_crn(@PathVariable Long regiao_crn) {
+        List<Nutricionista> nutricionistas = nutricionistaService.getNutricionistaByRegiao_crn(regiao_crn);
+        if (nutricionistas != null) {
+            return new ResponseEntity<>(nutricionistas, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
     @PostMapping
     public ResponseEntity<Nutricionista> createNutricionista(@RequestBody Nutricionista nutricionista) {
         Nutricionista newNutricionista = nutricionistaService.createNutricionista(nutricionista);
