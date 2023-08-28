@@ -13,4 +13,5 @@ public interface NutricionistaService {
     Nutricionista getNutricionistaByEmail(String email);
     Nutricionista getNutricionistaByInscricao(String inscricao);
     List<Nutricionista> getNutricionistaByRegiao_crn(Long regiao_crn);
+   String getNutricionistaValidation(String inscricao, Long regiaoCrn);
 }

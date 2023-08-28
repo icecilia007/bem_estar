@@ -50,6 +50,11 @@ public class NutricionistaController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+    /*@GetMapping("/validate")
+    public String validateNutricionista(@RequestParam String inscricao, @RequestParam Long regiaoCrn) {
+        // Chame o método do serviço para validar a inscrição do nutricionista
+        return nutricionistaService.getNutricionistaValidation(inscricao, regiaoCrn);
+    }*/
     @PostMapping
     public ResponseEntity<Nutricionista> createNutricionista(@RequestBody Nutricionista nutricionista) {
         Nutricionista newNutricionista = nutricionistaService.createNutricionista(nutricionista);
