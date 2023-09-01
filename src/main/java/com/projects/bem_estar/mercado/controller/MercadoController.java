@@ -59,6 +59,15 @@ public class MercadoController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    @PutMapping("/endereco/{id}")
+    public ResponseEntity<Mercado> updateMercadoEndereco(@PathVariable Long id, @RequestBody Mercado mercado) {
+        Mercado updatedMercado = mercadoService.updateMercadoEndereco(id, mercado);
+        if (updatedMercado != null) {
+            return new ResponseEntity<>(updatedMercado, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMercado(@PathVariable Long id) {

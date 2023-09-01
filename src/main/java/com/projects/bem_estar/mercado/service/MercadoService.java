@@ -11,5 +11,8 @@ public interface MercadoService {
     Mercado getMercadoByCnpj(String cnpj);
     Mercado createMercado(Mercado mercado);
     Mercado updateMercado(Long id, Mercado mercado);
+
+    Mercado updateMercadoEndereco(Long id, Mercado mercado);
+
     void deleteMercadoById(Long id);
 }
