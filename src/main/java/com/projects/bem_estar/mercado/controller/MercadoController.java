@@ -35,6 +35,7 @@ public class MercadoController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
     @GetMapping("/cnpj/{cnpj}")
     public ResponseEntity<Mercado> getMercadoByCnpj(@PathVariable String cnpj) {
         Mercado mercado = mercadoService.getMercadoByCnpj(cnpj);
@@ -43,10 +44,11 @@ public class MercadoController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
     @PostMapping
     public ResponseEntity<Mercado> createMercado(@RequestBody Mercado mercado) {
         Mercado newMercado = mercadoService.createMercado(mercado);
-        if(newMercado!=null) return new ResponseEntity<>(newMercado, HttpStatus.CREATED);
+        if (newMercado != null) return new ResponseEntity<>(newMercado, HttpStatus.CREATED);
         return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
 
@@ -59,6 +61,7 @@ public class MercadoController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
     @PutMapping("/endereco/{id}")
     public ResponseEntity<Mercado> updateMercadoEndereco(@PathVariable Long id, @RequestBody Mercado mercado) {
         Mercado updatedMercado = mercadoService.updateMercadoEndereco(id, mercado);

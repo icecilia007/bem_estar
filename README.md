@@ -1,6 +1,8 @@
 # Projeto Bem Estar
 
 # Configuração do ambiente
+## Rota Swagger
+      http://localhost:8080/swagger-ui/index.html#/
 ## Criação variavel de ambiente
 ### Importancia
 O Application.properties é muito importante para nossa aplicação, nele existem algumas configurações básicas e dados sensiveis de cada computador, como senhas e etc, para evitar que esse tipo de dado vaze e qualquer um senha acesso são utilizado váriaveis de ambente. O que seria uma váriavel de ambiente? Nada mais é que uma constante que guarda um determinado valor no seu sistema operacional, sendo só você a pessoa que consegui visualizar/modificar o que tem nela.

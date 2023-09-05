@@ -4,11 +4,12 @@ import com.projects.bem_estar.endereco.model.Endereco;
 import com.projects.bem_estar.endereco.repository.EnderecoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
 public class EnderecoServiceImpl implements EnderecoService {
-    private EnderecoRepository enderecoRepository;
+    private final EnderecoRepository enderecoRepository;
 
     @Autowired
     public EnderecoServiceImpl(EnderecoRepository enderecoRepository) {
@@ -39,6 +40,7 @@ public class EnderecoServiceImpl implements EnderecoService {
     public List<Endereco> getByEndereco(String endereco) {
         return enderecoRepository.findByEndereco(endereco);
     }
+
     @Override
     public List<Endereco> getAllEnderecos() {
         return enderecoRepository.findAll();
@@ -52,7 +54,7 @@ public class EnderecoServiceImpl implements EnderecoService {
     @Override
     public Endereco updateEndereco(Long id, Endereco endereco) {
         Endereco existingEndereco = getById(id);
-        if (existingEndereco!=null) {
+        if (existingEndereco != null) {
             existingEndereco.setEndereco(endereco.getEndereco());
             existingEndereco.setBairro(endereco.getBairro());
 //            existingEndereco.setCep(endereco.getCep());

@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/clientes")
+@RequestMapping(value = "/api/clientes")
+@CrossOrigin(origins = "*")
 public class ClienteController {
 
     private final ClienteService clienteService;
@@ -27,39 +28,47 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
+
     public ResponseEntity<Cliente> getClienteById(@PathVariable Long id) {
         Cliente cliente = clienteService.getClienteById(id);
-        if(cliente!=null)return new ResponseEntity<>(cliente, HttpStatus.OK);
+        if (cliente != null) return new ResponseEntity<>(cliente, HttpStatus.OK);
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
+
     @GetMapping("/cpf/{cpf}")
+
     public ResponseEntity<Cliente> getClienteByCpf(@PathVariable String cpf) {
         Cliente cliente = clienteService.getClienteByCpf(cpf);
-        if(cliente!=null)return new ResponseEntity<>(cliente, HttpStatus.OK);
+        if (cliente != null) return new ResponseEntity<>(cliente, HttpStatus.OK);
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
     @PostMapping
+
     public ResponseEntity<Cliente> createCliente(@RequestBody Cliente cliente) {
         Cliente newCliente = clienteService.createCliente(cliente);
-        if(newCliente!=null)return new ResponseEntity<>(newCliente, HttpStatus.CREATED);
+        if (newCliente != null) return new ResponseEntity<>(newCliente, HttpStatus.CREATED);
         return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping("/{id}")
+
     public ResponseEntity<Cliente> updateCliente(@PathVariable Long id, @RequestBody Cliente cliente) {
         Cliente updatedCliente = clienteService.updateCliente(id, cliente);
-        if(updatedCliente!=null) return new ResponseEntity<>(updatedCliente, HttpStatus.OK);
+        if (updatedCliente != null) return new ResponseEntity<>(updatedCliente, HttpStatus.OK);
         else return new ResponseEntity<>(updatedCliente, HttpStatus.BAD_REQUEST);
     }
+
     @PutMapping("/cpf/{cpf}")
+
     public ResponseEntity<Cliente> updateCliente(@PathVariable String cpf, @RequestBody Cliente cliente) {
         Cliente updatedCliente = clienteService.updateClienteByCpf(cpf, cliente);
-        if(updatedCliente!=null) return new ResponseEntity<>(updatedCliente, HttpStatus.OK);
+        if (updatedCliente != null) return new ResponseEntity<>(updatedCliente, HttpStatus.OK);
         else return new ResponseEntity<>(updatedCliente, HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping("/{id}")
+
     public ResponseEntity<Void> deleteCliente(@PathVariable Long id) {
         clienteService.deleteCliente(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

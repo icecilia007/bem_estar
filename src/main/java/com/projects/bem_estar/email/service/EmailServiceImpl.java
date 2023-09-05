@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailServiceImpl implements EmailService {
     @Autowired
-    private JavaMailSender mailSender;
+    private final JavaMailSender mailSender;
 
     @Autowired
     public EmailServiceImpl(JavaMailSender mailSender) {
@@ -22,7 +22,7 @@ public class EmailServiceImpl implements EmailService {
         message.setSubject(subject);
         message.setText(text);
         message.setFrom("Nutrilifepuc@gmail.com");
-        System.out.println("\n\n"+message);
+        System.out.println("\n\n" + message);
 
         try {
             mailSender.send(message);

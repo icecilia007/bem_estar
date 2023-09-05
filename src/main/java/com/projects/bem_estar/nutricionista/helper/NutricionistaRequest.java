@@ -1,7 +1,5 @@
 package com.projects.bem_estar.nutricionista.helper;
 
-import java.util.List;
-
 public class NutricionistaRequest {
     private String comando;
     private Option options;

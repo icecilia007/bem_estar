@@ -11,7 +11,9 @@ import java.util.List;
 @Repository
 public interface NutricionistaRepository extends JpaRepository<Nutricionista, Long> {
     Nutricionista findByEmail(String email);
+
     Nutricionista findByInscricao(String inscricao);
+
     @Query("SELECT n FROM Nutricionista n WHERE n.regiao_crn = :regiao_crn")
     List<Nutricionista> findByRegiao_crn(@Param("regiao_crn") Long regiao_crn);
 }

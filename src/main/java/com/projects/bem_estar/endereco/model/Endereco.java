@@ -7,23 +7,23 @@ public class Endereco {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name ="cep")
+    @Column(name = "cep")
     private String cep;
-    @Column(name ="tipo_cep")
+    @Column(name = "tipo_cep")
     private String tipoCep;
-    @Column(name ="sub_tipo_cep")
+    @Column(name = "sub_tipo_cep")
     private String subTipoCep;
-    @Column(name ="uf")
+    @Column(name = "uf")
     private String uf;
-    @Column(name ="cidade")
+    @Column(name = "cidade")
     private String cidade;
-    @Column(name ="bairro")
+    @Column(name = "bairro")
     private String bairro;
-    @Column(name ="endereco")
+    @Column(name = "endereco")
     private String endereco;
-    @Column(name ="complemento")
+    @Column(name = "complemento")
     private String complemento;
-    @Column(name ="codigo_ibge")
+    @Column(name = "codigo_ibge")
     private String codigoIBGE;
 
     public Endereco() {
@@ -148,4 +148,4 @@ public class Endereco {
                 ", codigoIBGE='" + codigoIBGE + '\'' +
                 '}';
     }
-    }
+}

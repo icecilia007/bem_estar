@@ -7,8 +7,8 @@ import com.projects.bem_estar.nutricionista.repository.NutricionistaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.*;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +16,7 @@ import java.util.Optional;
 @Service
 public class NutricionistaServiceImpl implements NutricionistaService {
 
+    private static final String CNN_API_URL = "https://cnn.cfn.org.br/application/front-resource/get";
     private final NutricionistaRepository nutricionistaRepository;
 
     @Autowired
@@ -77,8 +78,6 @@ public class NutricionistaServiceImpl implements NutricionistaService {
         return nutricionistaRepository.findByRegiao_crn(regiao_crn);
     }
 
-    private static final String CNN_API_URL = "https://cnn.cfn.org.br/application/front-resource/get";
-
     public String getNutricionistaValidation(String inscricao, Long regiaoCrn) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -96,7 +95,7 @@ public class NutricionistaServiceImpl implements NutricionistaService {
         HttpEntity<NutricionistaRequest> entity = new HttpEntity<>(request, headers);
 
         RestTemplate restTemplate = new RestTemplate();
-        System.out.println("\n\n\n"+entity);
+        System.out.println("\n\n\n" + entity);
         ResponseEntity<String> response = restTemplate.exchange(CNN_API_URL, HttpMethod.POST, entity, String.class);
 
         if (response.getStatusCode() == HttpStatus.OK) {

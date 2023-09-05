@@ -21,7 +21,10 @@ public class EmailController {
     }
 
     @PostMapping("/send")
-    public ResponseEntity<String> sendEmail(@RequestParam String to, @RequestParam String subject, @RequestParam String text) {
+    public ResponseEntity<String> sendEmail(
+            @RequestParam String to,
+            @RequestParam String subject,
+            @RequestParam String text) {
         try {
             emailService.sendEmail(to, subject, text);
             return ResponseEntity.ok("E-mail enviado com sucesso!");
