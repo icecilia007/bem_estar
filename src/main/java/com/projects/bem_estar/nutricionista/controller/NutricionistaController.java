@@ -34,6 +34,7 @@ public class NutricionistaController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
     @GetMapping("/inscricao/{inscricao}")
     public ResponseEntity<Nutricionista> getNutricionistaById(@PathVariable String inscricao) {
         Nutricionista nutricionista = nutricionistaService.getNutricionistaByInscricao(inscricao);
@@ -42,6 +43,7 @@ public class NutricionistaController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
     @GetMapping("/regiao_crn/{regiao_crn}")
     public ResponseEntity<List<Nutricionista>> getNutricionistaByRegiao_crn(@PathVariable Long regiao_crn) {
         List<Nutricionista> nutricionistas = nutricionistaService.getNutricionistaByRegiao_crn(regiao_crn);
@@ -50,6 +52,7 @@ public class NutricionistaController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
     /*@GetMapping("/validate")
     public String validateNutricionista(@RequestParam String inscricao, @RequestParam Long regiaoCrn) {
         // Chame o método do serviço para validar a inscrição do nutricionista
