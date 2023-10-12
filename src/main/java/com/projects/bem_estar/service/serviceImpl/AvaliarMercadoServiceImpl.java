@@ -1,12 +1,12 @@
 package com.projects.bem_estar.service.serviceImpl;
 
-import com.projects.bem_estar.models.AvaliarEntrega;
+import com.projects.bem_estar.models.AvaliarMercado;
 import com.projects.bem_estar.models.Cliente;
 import com.projects.bem_estar.models.Mercado;
-import com.projects.bem_estar.repository.AvaliarEntregaRepository;
+import com.projects.bem_estar.repository.AvaliarMercadoRepository;
 import com.projects.bem_estar.repository.ClienteRepository;
 import com.projects.bem_estar.repository.MercadoRepository;
-import com.projects.bem_estar.service.AvaliarEntregaService;
+import com.projects.bem_estar.service.AvaliarMercadoService;
 import com.projects.bem_estar.service.ClienteService;
 import com.projects.bem_estar.service.MercadoService;
 import org.springframework.stereotype.Service;
@@ -15,36 +15,36 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AvaliarEntregaServiceImpl implements AvaliarEntregaService {
+public class AvaliarMercadoServiceImpl implements AvaliarMercadoService {
     private final ClienteService clienteService;
     private final MercadoService mercadoService;
-    private final AvaliarEntregaRepository avaliarEntregaRepository;
+    private final AvaliarMercadoRepository avaliarEntregaRepository;
 
-    public AvaliarEntregaServiceImpl(ClienteRepository clienteRepository, MercadoRepository mercadoRepository, ClienteService clienteService, MercadoService mercadoService, AvaliarEntregaRepository avaliarEntregaRepository) {
+    public AvaliarMercadoServiceImpl(ClienteRepository clienteRepository, MercadoRepository mercadoRepository, ClienteService clienteService, MercadoService mercadoService, AvaliarMercadoRepository avaliarEntregaRepository) {
         this.clienteService = clienteService;
         this.mercadoService = mercadoService;
         this.avaliarEntregaRepository = avaliarEntregaRepository;
     }
 
     @Override
-    public AvaliarEntrega getAvaliarEntregaById(Long id) {
-        Optional<AvaliarEntrega> optionalAvaliarEntrega = avaliarEntregaRepository.findById(id);
+    public AvaliarMercado getAvaliarEntregaById(Long id) {
+        Optional<AvaliarMercado> optionalAvaliarEntrega = avaliarEntregaRepository.findById(id);
         return optionalAvaliarEntrega.orElse(null);
     }
 
     @Override
-    public List<AvaliarEntrega> getAllAvaliarEntrega() {
+    public List<AvaliarMercado> getAllAvaliarEntrega() {
          return avaliarEntregaRepository.findAll();
     }
 
     @Override
-    public AvaliarEntrega createAvaliarEntrega(AvaliarEntrega avaliarEntrega) {
+    public AvaliarMercado createAvaliarEntrega(AvaliarMercado avaliarEntrega) {
         Cliente clienteExistente = clienteService.getClienteById(avaliarEntrega.getCliente().getIdCliente());
         Mercado mercadoExistente = mercadoService.getMercadoById(avaliarEntrega.getMercado().getIdMercado());
         if(clienteExistente!=null && mercadoExistente!=null){
             return avaliarEntregaRepository.save(
-                    new AvaliarEntrega(
-                            avaliarEntrega.getAtendimento(),avaliarEntrega.getTempoDeEntrega(),avaliarEntrega.getQualidadeDeEntrega(),avaliarEntrega.getQualidadeDoProduto(), avaliarEntrega.getComentarios(),
+                    new AvaliarMercado(
+                            avaliarEntrega.getAtendimento(),avaliarEntrega.getComentarios(),
                             clienteExistente,mercadoExistente
                     ));
         } else if (clienteExistente==null && mercadoExistente!=null) {
@@ -61,13 +61,10 @@ public class AvaliarEntregaServiceImpl implements AvaliarEntregaService {
     }
 
     @Override
-    public AvaliarEntrega updateAvaliarEntrega(Long id, AvaliarEntrega avaliarEntrega) {
-        AvaliarEntrega avaliarEntregaExistente = getAvaliarEntregaById(id);
+    public AvaliarMercado updateAvaliarEntrega(Long id, AvaliarMercado avaliarEntrega) {
+        AvaliarMercado avaliarEntregaExistente = getAvaliarEntregaById(id);
         if(avaliarEntregaExistente!=null){
             avaliarEntregaExistente.setAtendimento(avaliarEntrega.getAtendimento());
-            avaliarEntregaExistente.setTempoDeEntrega(avaliarEntrega.getTempoDeEntrega());
-            avaliarEntregaExistente.setQualidadeDeEntrega(avaliarEntrega.getQualidadeDeEntrega());
-            avaliarEntregaExistente.setQualidadeDoProduto(avaliarEntrega.getQualidadeDoProduto());
             avaliarEntregaExistente.setComentarios(avaliarEntrega.getComentarios());
             return avaliarEntregaRepository.save(avaliarEntregaExistente);
         }
@@ -75,7 +72,7 @@ public class AvaliarEntregaServiceImpl implements AvaliarEntregaService {
     }
 
     @Override
-    public AvaliarEntrega deleteAvaliarEntrega(Long id) {
+    public AvaliarMercado deleteAvaliarEntrega(Long id) {
         avaliarEntregaRepository.deleteById(id);
         return null;
     }
