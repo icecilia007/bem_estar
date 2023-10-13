@@ -1,7 +1,7 @@
 package com.projects.bem_estar.models;
 import jakarta.persistence.*;
 @Entity
-@Table(name = "avaliarmercado")
+@Table(name = "avaliacaomercado")
 public class AvaliarMercado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

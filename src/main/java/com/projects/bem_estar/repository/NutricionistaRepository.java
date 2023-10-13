@@ -19,5 +19,5 @@ public interface NutricionistaRepository extends JpaRepository<Nutricionista, Lo
     @Query("SELECT n FROM Nutricionista n WHERE n.regiao_crn = :regiao_crn")
     List<Nutricionista> findByRegiao_crn(@Param("regiao_crn") Long regiao_crn);
     @Query(value = "SELECT * FROM nutricionista WHERE email = :email AND senha = :senha", nativeQuery = true)
-    Optional<Nutricionista> findByLogin(@Param("cnpj")String email, @Param("senha") String senha);
+    Optional<Nutricionista> findByLogin(@Param("email")String email, @Param("senha") String senha);
 }

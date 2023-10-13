@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/mercados")
+@CrossOrigin(origins = "*")
 public class MercadoController {
 
     private final MercadoService mercadoService;
