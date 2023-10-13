@@ -27,52 +27,52 @@ public class AvaliarMercadoServiceImpl implements AvaliarMercadoService {
     }
 
     @Override
-    public AvaliarMercado getAvaliarEntregaById(Long id) {
-        Optional<AvaliarMercado> optionalAvaliarEntrega = avaliarMercadoRepository.findById(id);
-        return optionalAvaliarEntrega.orElse(null);
+    public AvaliarMercado getAvaliarMercadoById(Long id) {
+        Optional<AvaliarMercado> optionalAvaliarMercado = avaliarMercadoRepository.findById(id);
+        return optionalAvaliarMercado.orElse(null);
     }
 
     @Override
-    public List<AvaliarMercado> getAllAvaliarEntrega() {
+    public List<AvaliarMercado> getAllAvaliarMercado() {
          return avaliarMercadoRepository.findAll();
     }
 
     @Override
-    public AvaliarMercado createAvaliarEntrega(AvaliarMercado avaliarEntrega) {
-        Cliente clienteExistente = clienteService.getClienteById(avaliarEntrega.getCliente().getIdCliente());
-        Mercado mercadoExistente = mercadoService.getMercadoById(avaliarEntrega.getMercado().getIdMercado());
+    public AvaliarMercado createAvaliarMercado(AvaliarMercado AvaliarMercado) {
+        Cliente clienteExistente = clienteService.getClienteById(AvaliarMercado.getCliente().getIdCliente());
+        Mercado mercadoExistente = mercadoService.getMercadoById(AvaliarMercado.getMercado().getIdMercado());
         if(clienteExistente!=null && mercadoExistente!=null){
             return avaliarMercadoRepository.save(
                     new AvaliarMercado(
-                            avaliarEntrega.getAtendimento(),avaliarEntrega.getComentarios(),
+                            AvaliarMercado.getAtendimento(),AvaliarMercado.getComentarios(),
                             clienteExistente,mercadoExistente
                     ));
         } else if (clienteExistente==null && mercadoExistente!=null) {
-            clienteService.createCliente(avaliarEntrega.getCliente());
-            return avaliarMercadoRepository.save(avaliarEntrega);
+            clienteService.createCliente(AvaliarMercado.getCliente());
+            return avaliarMercadoRepository.save(AvaliarMercado);
         } else if (mercadoExistente==null && clienteExistente!=null) {
-            mercadoService.createMercado(avaliarEntrega.getMercado());
-            return avaliarMercadoRepository.save(avaliarEntrega);
+            mercadoService.createMercado(AvaliarMercado.getMercado());
+            return avaliarMercadoRepository.save(AvaliarMercado);
         }else{
-            clienteService.createCliente(avaliarEntrega.getCliente());
-            mercadoService.createMercado(avaliarEntrega.getMercado());
-            return avaliarMercadoRepository.save(avaliarEntrega);
+            clienteService.createCliente(AvaliarMercado.getCliente());
+            mercadoService.createMercado(AvaliarMercado.getMercado());
+            return avaliarMercadoRepository.save(AvaliarMercado);
         }
     }
 
     @Override
-    public AvaliarMercado updateAvaliarEntrega(Long id, AvaliarMercado avaliarEntrega) {
-        AvaliarMercado avaliarEntregaExistente = getAvaliarEntregaById(id);
-        if(avaliarEntregaExistente!=null){
-            avaliarEntregaExistente.setAtendimento(avaliarEntrega.getAtendimento());
-            avaliarEntregaExistente.setComentarios(avaliarEntrega.getComentarios());
-            return avaliarMercadoRepository.save(avaliarEntregaExistente);
+    public AvaliarMercado updateAvaliarMercado(Long id, AvaliarMercado AvaliarMercado) {
+        AvaliarMercado AvaliarMercadoExistente = getAvaliarMercadoById(id);
+        if(AvaliarMercadoExistente!=null){
+            AvaliarMercadoExistente.setAtendimento(AvaliarMercado.getAtendimento());
+            AvaliarMercadoExistente.setComentarios(AvaliarMercado.getComentarios());
+            return avaliarMercadoRepository.save(AvaliarMercadoExistente);
         }
         return null;
     }
 
     @Override
-    public AvaliarMercado deleteAvaliarEntrega(Long id) {
+    public AvaliarMercado deleteAvaliarMercado(Long id) {
         avaliarMercadoRepository.deleteById(id);
         return null;
     }
