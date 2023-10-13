@@ -106,4 +106,9 @@ public class NutricionistaServiceImpl implements NutricionistaService {
             return "Erro ao consultar a API do CNN CFN";
         }
     }
+
+    @Override
+    public Optional<Nutricionista> getLogin(String email, String senha) {
+        return nutricionistaRepository.findByLogin(email,senha);
+    }
 }

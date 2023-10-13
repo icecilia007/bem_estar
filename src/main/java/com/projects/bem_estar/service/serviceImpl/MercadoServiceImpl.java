@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MercadoServiceImpl implements MercadoService {
@@ -79,5 +80,10 @@ public class MercadoServiceImpl implements MercadoService {
     @Override
     public void deleteMercadoById(Long id) {
         mercadoRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<Mercado> getLogin(String cnpj, String senha) {
+        return mercadoRepository.findByLogin(cnpj,senha);
     }
 }

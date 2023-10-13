@@ -1,11 +1,11 @@
 package com.projects.bem_estar.models;
 import jakarta.persistence.*;
 @Entity
-@Table(name = "AvaliarEntrega")
+@Table(name = "avaliarmercado")
 public class AvaliarMercado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idAvaliarEntrega")
+    @Column(name = "idAvaliacao")
     private Long idAvaliarEntrega;
 
     private int atendimento;

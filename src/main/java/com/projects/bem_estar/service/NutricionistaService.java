@@ -3,6 +3,7 @@ package com.projects.bem_estar.service;
 import com.projects.bem_estar.models.Nutricionista;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface NutricionistaService {
     List<Nutricionista> getAllNutricionistas();
@@ -22,4 +23,6 @@ public interface NutricionistaService {
     List<Nutricionista> getNutricionistaByRegiao_crn(Long regiao_crn);
 
     String getNutricionistaValidation(String inscricao, Long regiaoCrn);
+
+    Optional<Nutricionista> getLogin(String identificador, String senha);
 }

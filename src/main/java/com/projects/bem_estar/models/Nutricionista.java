@@ -16,7 +16,7 @@ public class Nutricionista {
     @Column(nullable = false, unique = true)
     private String inscricao;
     @Column(nullable = false)
-    private Long regiao_crn;
+    private String regiao_crn;
 
     @Column(nullable = false, name="senha")
     private String password;
@@ -26,7 +26,7 @@ public class Nutricionista {
     public Nutricionista() {
     }
 
-    public Nutricionista(Long idNutricionista, String name, String email, String inscricao, Long regiao_crn, String password) {
+    public Nutricionista(Long idNutricionista, String name, String email, String inscricao, String regiao_crn, String password) {
         this.idNutricionista = idNutricionista;
         this.name = name;
         this.email = email;
@@ -67,11 +67,11 @@ public class Nutricionista {
         this.inscricao = inscricao;
     }
 
-    public Long getRegiao_crn() {
+    public String getRegiao_crn() {
         return regiao_crn;
     }
 
-    public void setRegiao_crn(Long regiao_crn) {
+    public void setRegiao_crn(String regiao_crn) {
         this.regiao_crn = regiao_crn;
     }
 

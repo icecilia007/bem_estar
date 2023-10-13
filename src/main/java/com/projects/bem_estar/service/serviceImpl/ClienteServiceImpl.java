@@ -82,4 +82,9 @@ public class ClienteServiceImpl implements ClienteService {
         }
         return null;
     }
+
+    @Override
+    public Optional<Cliente> getLogin(String cpf, String senha) {
+        return clienteRepository.findByLogin(cpf,senha);
+    }
 }

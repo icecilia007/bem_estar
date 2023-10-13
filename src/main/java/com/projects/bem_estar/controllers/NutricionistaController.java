@@ -1,5 +1,7 @@
 package com.projects.bem_estar.controllers;
 
+import com.projects.bem_estar.helpers.Login;
+import com.projects.bem_estar.models.Mercado;
 import com.projects.bem_estar.models.Nutricionista;
 import com.projects.bem_estar.service.NutricionistaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/nutricionistas")
@@ -66,7 +69,14 @@ public class NutricionistaController {
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-
+    @PostMapping("/login/")
+    public ResponseEntity<Object> userLogin(@RequestBody Login login){
+        Optional<Nutricionista> nutricionista = nutricionistaService.getLogin(login.getIdentificador(),login.getSenha());
+        if(nutricionista.isEmpty()){
+            return new ResponseEntity<>(login,HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(nutricionista,HttpStatus.OK);
+    }
     @PutMapping("/{id}")
     public ResponseEntity<Nutricionista> updateNutricionista(@PathVariable Long id, @RequestBody Nutricionista nutricionista) {
         Nutricionista updatedNutricionista = nutricionistaService.updateNutricionista(id, nutricionista);

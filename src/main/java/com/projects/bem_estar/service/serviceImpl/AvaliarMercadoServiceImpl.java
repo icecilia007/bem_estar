@@ -18,23 +18,23 @@ import java.util.Optional;
 public class AvaliarMercadoServiceImpl implements AvaliarMercadoService {
     private final ClienteService clienteService;
     private final MercadoService mercadoService;
-    private final AvaliarMercadoRepository avaliarEntregaRepository;
+    private final AvaliarMercadoRepository avaliarMercadoRepository;
 
-    public AvaliarMercadoServiceImpl(ClienteRepository clienteRepository, MercadoRepository mercadoRepository, ClienteService clienteService, MercadoService mercadoService, AvaliarMercadoRepository avaliarEntregaRepository) {
+    public AvaliarMercadoServiceImpl(ClienteRepository clienteRepository, MercadoRepository mercadoRepository, ClienteService clienteService, MercadoService mercadoService, AvaliarMercadoRepository avaliarMercadoRepository) {
         this.clienteService = clienteService;
         this.mercadoService = mercadoService;
-        this.avaliarEntregaRepository = avaliarEntregaRepository;
+        this.avaliarMercadoRepository = avaliarMercadoRepository;
     }
 
     @Override
     public AvaliarMercado getAvaliarEntregaById(Long id) {
-        Optional<AvaliarMercado> optionalAvaliarEntrega = avaliarEntregaRepository.findById(id);
+        Optional<AvaliarMercado> optionalAvaliarEntrega = avaliarMercadoRepository.findById(id);
         return optionalAvaliarEntrega.orElse(null);
     }
 
     @Override
     public List<AvaliarMercado> getAllAvaliarEntrega() {
-         return avaliarEntregaRepository.findAll();
+         return avaliarMercadoRepository.findAll();
     }
 
     @Override
@@ -42,21 +42,21 @@ public class AvaliarMercadoServiceImpl implements AvaliarMercadoService {
         Cliente clienteExistente = clienteService.getClienteById(avaliarEntrega.getCliente().getIdCliente());
         Mercado mercadoExistente = mercadoService.getMercadoById(avaliarEntrega.getMercado().getIdMercado());
         if(clienteExistente!=null && mercadoExistente!=null){
-            return avaliarEntregaRepository.save(
+            return avaliarMercadoRepository.save(
                     new AvaliarMercado(
                             avaliarEntrega.getAtendimento(),avaliarEntrega.getComentarios(),
                             clienteExistente,mercadoExistente
                     ));
         } else if (clienteExistente==null && mercadoExistente!=null) {
             clienteService.createCliente(avaliarEntrega.getCliente());
-            return avaliarEntregaRepository.save(avaliarEntrega);
+            return avaliarMercadoRepository.save(avaliarEntrega);
         } else if (mercadoExistente==null && clienteExistente!=null) {
             mercadoService.createMercado(avaliarEntrega.getMercado());
-            return avaliarEntregaRepository.save(avaliarEntrega);
+            return avaliarMercadoRepository.save(avaliarEntrega);
         }else{
             clienteService.createCliente(avaliarEntrega.getCliente());
             mercadoService.createMercado(avaliarEntrega.getMercado());
-            return avaliarEntregaRepository.save(avaliarEntrega);
+            return avaliarMercadoRepository.save(avaliarEntrega);
         }
     }
 
@@ -66,14 +66,14 @@ public class AvaliarMercadoServiceImpl implements AvaliarMercadoService {
         if(avaliarEntregaExistente!=null){
             avaliarEntregaExistente.setAtendimento(avaliarEntrega.getAtendimento());
             avaliarEntregaExistente.setComentarios(avaliarEntrega.getComentarios());
-            return avaliarEntregaRepository.save(avaliarEntregaExistente);
+            return avaliarMercadoRepository.save(avaliarEntregaExistente);
         }
         return null;
     }
 
     @Override
     public AvaliarMercado deleteAvaliarEntrega(Long id) {
-        avaliarEntregaRepository.deleteById(id);
+        avaliarMercadoRepository.deleteById(id);
         return null;
     }
 }

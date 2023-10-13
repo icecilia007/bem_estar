@@ -1,5 +1,7 @@
 package com.projects.bem_estar.controllers;
 
+import com.projects.bem_estar.helpers.Login;
+import com.projects.bem_estar.models.Cliente;
 import com.projects.bem_estar.models.Mercado;
 import com.projects.bem_estar.service.MercadoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/mercados")
@@ -51,7 +54,14 @@ public class MercadoController {
         if (newMercado != null) return new ResponseEntity<>(newMercado, HttpStatus.CREATED);
         return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
-
+    @PostMapping("/login/")
+    public ResponseEntity<Object> userLogin(@RequestBody Login login){
+        Optional<Mercado> mercado = mercadoService.getLogin(login.getIdentificador(),login.getSenha());
+        if(mercado.isEmpty()){
+            return new ResponseEntity<>(login,HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(mercado,HttpStatus.OK);
+    }
     @PutMapping("/{id}")
     public ResponseEntity<Mercado> updateMercado(@PathVariable Long id, @RequestBody Mercado mercado) {
         Mercado updatedMercado = mercadoService.updateMercado(id, mercado);
