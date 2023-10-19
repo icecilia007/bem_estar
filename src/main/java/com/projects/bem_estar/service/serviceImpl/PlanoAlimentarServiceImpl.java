@@ -30,7 +30,7 @@ public class PlanoAlimentarServiceImpl implements PlanoAlimentarService {
     }
 
     @Override
-    public List<PlanoAlimentar> getAllPlanosAlimentares(String status) {
+    public List<PlanoAlimentar> getAllPlanosAlimentaresByStatus(String status) {
         return planoAlimentarRepository.findByStatus(status);
     }
 

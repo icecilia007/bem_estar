@@ -15,8 +15,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/nutricionistas")
 @CrossOrigin(origins = "*")
-
-
 public class NutricionistaController {
 
     private final NutricionistaService nutricionistaService;

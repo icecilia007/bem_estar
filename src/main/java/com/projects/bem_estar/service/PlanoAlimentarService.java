@@ -7,7 +7,7 @@ import java.util.List;
 public interface PlanoAlimentarService {
 
     List<PlanoAlimentar> getAllPlanosAlimentares();
-    List<PlanoAlimentar> getAllPlanosAlimentares(String status);
+    List<PlanoAlimentar> getAllPlanosAlimentaresByStatus(String status);
 
     PlanoAlimentar getPlanoAlimentarById(Long id);
     List<PlanoAlimentar> getPlanosAlimentaresByClienteId(Long clienteId);

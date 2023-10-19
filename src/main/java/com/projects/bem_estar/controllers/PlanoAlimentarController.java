@@ -1,6 +1,5 @@
 package com.projects.bem_estar.controllers;
 
-import com.projects.bem_estar.models.Ingrediente;
 import com.projects.bem_estar.models.PlanoAlimentar;
 import com.projects.bem_estar.service.PlanoAlimentarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +27,8 @@ public class PlanoAlimentarController {
         return new ResponseEntity<>(planosAlimentares, HttpStatus.OK);
     }
     @GetMapping("/status/{status}")
-    public ResponseEntity<List<PlanoAlimentar>> getAllPlanosAlimentares(@PathVariable String status) {
-        List<PlanoAlimentar> planosAlimentares = planoAlimentarService.getAllPlanosAlimentares(status);
+    public ResponseEntity<List<PlanoAlimentar>> getAllPlanosAlimentaresByStatus(@PathVariable String status) {
+        List<PlanoAlimentar> planosAlimentares = planoAlimentarService.getAllPlanosAlimentaresByStatus(status);
         return new ResponseEntity<>(planosAlimentares, HttpStatus.OK);
     }
 
