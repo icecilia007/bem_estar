@@ -60,52 +60,15 @@ public class PlanoAlimentarServiceImpl implements PlanoAlimentarService {
     }
 
     @Override
-    public List<PlanoAlimentar> getPlanosAlimentaresByMercadoId(Long mercadoId) {
-        return planoAlimentarRepository.findByMercadoId(mercadoId);
-    }
-
-    @Override
-    public List<PlanoAlimentar> getPlanosAlimentaresByMercadoCnpj(String cnpj) {
-        //Buscar o cliente com base no CPNJ
-        Mercado mercado = mercadoRepository.findByCnpj(cnpj);
-        if (mercado == null) {
-            return Collections.emptyList();
-        }
-        return planoAlimentarRepository.findByMercadoId(mercado.getIdMercado());
-    }
-
-    @Override
     public PlanoAlimentar createPlanoAlimentar(PlanoAlimentar planoAlimentar) {
         return planoAlimentarRepository.save(planoAlimentar);
     }
 
     @Override
-    public PlanoAlimentar updatePlanoAlimentarOrcamentoValores(Long id,Double valorAtual, Double valorEsperado) {
-        PlanoAlimentar existingPlanoAlimentar = planoAlimentarRepository.findById(id).orElse(null);
-        if (existingPlanoAlimentar != null) {
-            existingPlanoAlimentar.setValorAtual(valorAtual);
-            existingPlanoAlimentar.setValorEsperado(valorEsperado);
-            return planoAlimentarRepository.save(existingPlanoAlimentar);
-        }
-        return null;
-    }
-    @Override
     public PlanoAlimentar updatePlanoAlimentarStatus(Long id, String status) {
         PlanoAlimentar planoAlimentar = planoAlimentarRepository.findById(id).orElse(null);
         if (planoAlimentar != null) {
             planoAlimentar.setStatus(status);
-            return planoAlimentarRepository.save(planoAlimentar);
-        }
-        return null;
-    }
-
-    @Override
-    public PlanoAlimentar adicionarMercadoPlanoAlimentar(Long idPlanoAlimentar, Long idMercado) {
-        PlanoAlimentar planoAlimentar = planoAlimentarRepository.findById(idPlanoAlimentar).orElse(null);
-        Mercado mercado = mercadoRepository.findById(idMercado).orElse(null);
-
-        if (planoAlimentar != null && mercado != null) {
-            planoAlimentar.setMercado(mercado);
             return planoAlimentarRepository.save(planoAlimentar);
         }
         return null;

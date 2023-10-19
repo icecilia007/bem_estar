@@ -68,24 +68,6 @@ public class PlanoAlimentarController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
-    @GetMapping("/mercado/{mercadoId}")
-    public ResponseEntity<List<PlanoAlimentar>> getPlanosAlimentaresByMercadoId(@PathVariable Long mercadoId) {
-        List<PlanoAlimentar> planosAlimentares = planoAlimentarService.getPlanosAlimentaresByMercadoId(mercadoId);
-        if (!planosAlimentares.isEmpty()) {
-            return new ResponseEntity<>(planosAlimentares, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    @GetMapping("/mercado/cnpj/{cnpj}")
-    public ResponseEntity<List<PlanoAlimentar>> getPlanosAlimentaresByMercadoCnpj(@PathVariable String cnpj) {
-        List<PlanoAlimentar> planosAlimentares = planoAlimentarService.getPlanosAlimentaresByMercadoCnpj(cnpj);
-        if (!planosAlimentares.isEmpty()) {
-            return new ResponseEntity<>(planosAlimentares, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
     @PostMapping
     public ResponseEntity<PlanoAlimentar> createPlanoAlimentar(@RequestBody PlanoAlimentar planoAlimentar) {
         PlanoAlimentar newPlanoAlimentar = planoAlimentarService.createPlanoAlimentar(planoAlimentar);
@@ -93,15 +75,6 @@ public class PlanoAlimentarController {
             return new ResponseEntity<>(newPlanoAlimentar, HttpStatus.CREATED);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
-
-    @PutMapping("/orcamento-valor/{id}")
-    public ResponseEntity<PlanoAlimentar> updatePlanoAlimentarOrcamentoValores(@PathVariable Long id, @RequestParam("atual") Double valorAtual,@RequestParam("esperado") Double valorEsperado) {
-        PlanoAlimentar updatedPlanoAlimentar = planoAlimentarService.updatePlanoAlimentarOrcamentoValores(id, valorAtual, valorEsperado);
-        if (updatedPlanoAlimentar != null) {
-            return new ResponseEntity<>(updatedPlanoAlimentar, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     @PutMapping("/status/{id}")
     public ResponseEntity<PlanoAlimentar> updatePlanoAlimentarStatus(@PathVariable Long id, @RequestParam("status") String status) {
@@ -111,16 +84,6 @@ public class PlanoAlimentarController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
-    @PutMapping("/adicionar-mercado/{id}")
-    public ResponseEntity<PlanoAlimentar> adicionarMercadoPlanoAlimentar(@PathVariable Long id, @RequestParam("idMercado") Long mercadoId) {
-        PlanoAlimentar planoAlimentarComMercado = planoAlimentarService.adicionarMercadoPlanoAlimentar(id, mercadoId);
-        if (planoAlimentarComMercado != null) {
-            return new ResponseEntity<>(planoAlimentarComMercado, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePlanoAlimentar(@PathVariable Long id) {
         planoAlimentarService.deletePlanoAlimentar(id);
