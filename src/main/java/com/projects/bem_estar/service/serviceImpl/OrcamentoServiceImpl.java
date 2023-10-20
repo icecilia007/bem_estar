@@ -1,6 +1,8 @@
 package com.projects.bem_estar.service.serviceImpl;
 
+import com.projects.bem_estar.models.Mercado;
 import com.projects.bem_estar.models.Orcamento;
+import com.projects.bem_estar.models.PlanoAlimentar;
 import com.projects.bem_estar.repository.OrcamentoRepository;
 import com.projects.bem_estar.service.MercadoService;
 import com.projects.bem_estar.service.OrcamentoService;
@@ -29,10 +31,25 @@ public class OrcamentoServiceImpl implements OrcamentoService {
         return orcamentoRepository.findAll();
     }
 
+//    @Override
+//    public Orcamento getOrcamentoById(Long idMercado, Long idPlanoAlimentar) {
+//        Mercado mercado = mercadoService.getMercadoById(idMercado);
+//        PlanoAlimentar planoAlimentar = planoAlimentarService.getPlanoAlimentarById(idPlanoAlimentar);
+//        if(mercado!=null && planoAlimentar!=null) {
+//            Optional<Orcamento> orcamentoOptional = orcamentoRepository.findByPks(mercado, planoAlimentar);
+//            return orcamentoOptional.orElse(null);
+//        }
+//        return null;
+//    }
     @Override
     public Orcamento getOrcamentoById(Long idMercado, Long idPlanoAlimentar) {
-        Optional<Orcamento> orcamentoOptional = orcamentoRepository.findByPks(idMercado, idPlanoAlimentar);
-        return orcamentoOptional.orElse(null);
+        Mercado mercado = mercadoService.getMercadoById(idMercado);
+        PlanoAlimentar planoAlimentar = planoAlimentarService.getPlanoAlimentarById(idPlanoAlimentar);
+        if(mercado!=null && planoAlimentar!=null) {
+            Optional<Orcamento> orcamentoOptional = orcamentoRepository.findByPks(mercado.getIdMercado(), planoAlimentar.getIdPlanoAlimentar());
+            return orcamentoOptional.orElse(null);
+        }
+        return null;
     }
     @Override
     public List<Orcamento> getOrcamentosByPlanoAlimentar(Long id) {

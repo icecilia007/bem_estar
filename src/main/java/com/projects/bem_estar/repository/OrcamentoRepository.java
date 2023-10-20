@@ -1,7 +1,9 @@
 package com.projects.bem_estar.repository;
 
+import com.projects.bem_estar.models.Mercado;
 import com.projects.bem_estar.models.Orcamento;
 import com.projects.bem_estar.models.OrcamentoId;
+import com.projects.bem_estar.models.PlanoAlimentar;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,7 +25,7 @@ public interface OrcamentoRepository extends JpaRepository<Orcamento, OrcamentoI
     @Query("SELECT o FROM Orcamento o WHERE o.mercado.id = :idMercado")
     List<Orcamento> findByMercado(@Param("idMercado") Long idMercado);
 
-    @Query("SELECT o FROM Orcamento o WHERE o.mercado = :idMercado AND o.planoAlimentar = :idPlanoAlimentar")
+    @Query("SELECT o FROM Orcamento o WHERE o.mercado.idMercado = :idMercado AND o.planoAlimentar.idPlanoAlimentar = :idPlanoAlimentar")
     Optional<Orcamento> findByPks(@Param("idMercado") Long idMercado, @Param("idPlanoAlimentar") Long idPlanoAlimentar);
 
 }
