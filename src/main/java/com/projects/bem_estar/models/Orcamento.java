@@ -3,6 +3,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "orcamento")
+@IdClass(OrcamentoId.class)
 public class Orcamento {
     @Id
     @ManyToOne

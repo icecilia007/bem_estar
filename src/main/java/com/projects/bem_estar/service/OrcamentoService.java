@@ -15,9 +15,10 @@ public interface OrcamentoService {
 
     Orcamento updateOrcamento(Long idMercado, Long idPlanoAlimentar, Orcamento orcamento);
 
-    void deleteOrcamento(Long id);
 
     List<Orcamento> getOrcamentosByPlanoAlimentar(Long idPlanoAlimentar);
 
     List<Orcamento> getOrcamentosByMercado(Long idMercado);
+
+    Orcamento updateOrcamentoStatus(Long idMercado, Long idPlanoAlimentar, String status);
 }

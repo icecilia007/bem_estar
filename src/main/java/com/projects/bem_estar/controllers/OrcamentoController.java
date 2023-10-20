@@ -112,6 +112,15 @@ public class OrcamentoController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    @PutMapping("/status/{status}")
+    public ResponseEntity<Orcamento> updateOrcamentoStatus(@RequestParam("idMercado") Long idMercado, @RequestParam("idPlanoAlimentar") Long idPlanoAlimentar, @PathVariable String status) {
+        Orcamento updatedOrcamento = orcamentoService.updateOrcamentoStatus(idMercado, idPlanoAlimentar, status);
+        if (updatedOrcamento != null) {
+            return new ResponseEntity<>(updatedOrcamento, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
     @PutMapping("/orcamentos/aceitar")
     public ResponseEntity<Orcamento> aceitarOrcamento(@RequestBody Orcamento orcamentoAceito) {
         // Verifica se o orçamento enviado contém os IDs do Mercado e PlanoAlimentar.
@@ -151,12 +160,6 @@ public class OrcamentoController {
         }
         return new ResponseEntity<>(orcamentoExistente, HttpStatus.OK);
     }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrcamento(@PathVariable Long id) {
-        orcamentoService.deleteOrcamento(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
 
     @GetMapping("/cliente/{clienteId}/orcamentos-pendentes-planos")
     public ResponseEntity<List<Orcamento>> getOrcamentosPendentesPlanos(@PathVariable Long clienteId) {
@@ -167,7 +170,7 @@ public class OrcamentoController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        // Em seguida, obtenha todos os orçamentos pendentes para esse cliente
+        // Em seguida, obtenha todos os orçamentos pendentes
         List<Orcamento> orcamentosPendentes = orcamentoService.getOrcamentosByStatus("PEND");
 
         // Filtre os orçamentos para obter aqueles com plano alimentar "pendente de orçamento" e depois filtre para onde o plano alimenter tem o cliente em questão

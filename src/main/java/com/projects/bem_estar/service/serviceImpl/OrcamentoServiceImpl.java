@@ -42,6 +42,16 @@ public class OrcamentoServiceImpl implements OrcamentoService {
     public List<Orcamento> getOrcamentosByMercado(Long id) {
         return orcamentoRepository.findByMercado(id);
     }
+
+    @Override
+    public Orcamento updateOrcamentoStatus(Long idMercado, Long idPlanoAlimentar, String status) {
+        Optional<Orcamento> orcamentoOptional = orcamentoRepository.findByPks(idMercado,idPlanoAlimentar);
+        if (orcamentoOptional.isPresent()) {
+            orcamentoOptional.get().setStatus(status);
+            return orcamentoRepository.save(orcamentoOptional.get());
+        }
+        return null;    }
+
     @Override
     public List<Orcamento> getOrcamentosByStatus(String status) {
         return orcamentoRepository.findByStatus(status);
@@ -69,8 +79,4 @@ public class OrcamentoServiceImpl implements OrcamentoService {
         return null;
     }
 
-    @Override
-    public void deleteOrcamento(Long id) {
-        orcamentoRepository.deleteById(id);
-    }
 }

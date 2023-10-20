@@ -13,8 +13,6 @@ public interface PlanoAlimentarRepository extends JpaRepository<PlanoAlimentar, 
     List<PlanoAlimentar> findByClienteId(@Param("clienteId") Long clienteId);
     @Query("SELECT p FROM PlanoAlimentar p WHERE p.nutricionista.idNutricionista = :nutricionistaId")
     List<PlanoAlimentar> findByNutricionistaId(@Param("nutricionistaId")Long nutricionistaId);
-    @Query("SELECT p FROM PlanoAlimentar p WHERE p.mercado.idMercado = :mercadoId")
-    List<PlanoAlimentar> findByMercadoId(@Param("mercadoId") Long mercadoId);
     @Query("SELECT p FROM PlanoAlimentar p WHERE p.status = :status")
     List<PlanoAlimentar> findByStatus(@Param("status") String status);
 }
