@@ -1,5 +1,6 @@
 package com.projects.bem_estar.controllers;
 
+import com.projects.bem_estar.helpers.ErrorResponse;
 import com.projects.bem_estar.models.Cliente;
 import com.projects.bem_estar.models.Orcamento;
 import com.projects.bem_estar.models.PlanoAlimentar;
@@ -16,8 +17,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/orcamentos")
 @CrossOrigin(origins = "*")
+@RequestMapping("/api/orcamentos")
 public class OrcamentoController {
     private final OrcamentoService orcamentoService;
     private final PlanoAlimentarService planoAlimentarService;
@@ -68,13 +69,14 @@ public class OrcamentoController {
         List<Orcamento> orcamentos = orcamentoService.getOrcamentosByStatus(status);
         return new ResponseEntity<>(orcamentos, HttpStatus.OK);
     }
-
+    /*
+    consulta de todos os planos alimentares que precisam da aprovação de algum cliente.
+     */
     @GetMapping("/status/pendentes-planos")
     public ResponseEntity<List<Orcamento>> getOrcamentosPendentesPlanos() {
         // Primeiro, obtenha todos os orçamentos com status "pendente"
         List<Orcamento> orcamentosPendentes = orcamentoService.getOrcamentosByStatus("PEND");
-
-        // Agora, filtre os orçamentos para encontrar aqueles cujos planos alimentares têm status "pendente de orçamento"
+        // Agora, filtre os orçamentos para encontrar aqueles cujos planos alimentares têm status "pendente de orçamento", ou seja, orcamento que precisa da aprovação do cliente
         List<Orcamento> orcamentosPendentesPlanos = orcamentosPendentes.stream()
                 .filter(orcamento -> orcamento.getPlanoAlimentar().getStatus().equals("PENDO"))
                 .collect(Collectors.toList());
@@ -85,18 +87,34 @@ public class OrcamentoController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @GetMapping("/status/pendentes-orcamentos")
-    public ResponseEntity<List<PlanoAlimentar>> getPlanosPendenteOrcamento() {
+    /*
+    Rota para buscar todos os planos alimentares que precisam de um orcamento de algum mercado
+     */
+    @GetMapping("/status/pendentes-orcamentos/{idMercado}")
+    public ResponseEntity<List<PlanoAlimentar>> getPlanosPendenteOrcamento(@PathVariable("idMercado") Long idMercado) {
         // Primeiro, obtenha todos os planos alimentares com status pendente orçamento
-        List<PlanoAlimentar> orcamentosPendentes = planoAlimentarService.getAllPlanosAlimentaresByStatus("PNDO");
+        List<PlanoAlimentar> orcamentosPendentes = planoAlimentarService.getAllPlanosAlimentaresByStatus("PENDO");
+
+        // Em seguida, consulte a tabela de orçamentos para determinar quais planos alimentares já receberam um orçamento do mercado
+        List<Orcamento> orcamentosDoMercado = orcamentoService.getOrcamentosByMercado(idMercado);
+
+        // Crie uma lista de IDs de planos alimentares que já receberam orçamentos do mercado
+        List<Long> planosComOrcamento = orcamentosDoMercado.stream()
+                .map(orcamento -> orcamento.getPlanoAlimentar().getIdPlanoAlimentar())
+                .toList();
+
+        // Remova os planos alimentares que já receberam orçamentos
+        orcamentosPendentes.removeIf(plano -> planosComOrcamento.contains(plano.getIdPlanoAlimentar()));
+
         if (!orcamentosPendentes.isEmpty()) {
             return new ResponseEntity<>(orcamentosPendentes, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
     @PostMapping
-    public ResponseEntity<Orcamento> createOrcamento(@RequestBody Orcamento orcamento) {
+    public ResponseEntity<Object> createOrcamento(@RequestBody Orcamento orcamento) {
         Orcamento newOrcamento = orcamentoService.createOrcamento(orcamento);
         if (newOrcamento != null) {
             return new ResponseEntity<>(newOrcamento, HttpStatus.CREATED);
@@ -121,14 +139,17 @@ public class OrcamentoController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @PutMapping("/orcamentos/aceitar")
-    public ResponseEntity<Orcamento> aceitarOrcamento(@RequestBody Orcamento orcamentoAceito) {
+    /*
+    Rota para quando o clinete aceitar o orçamento dar um update em todos os orçamentos com id daquele plano
+     */
+    @PutMapping("/aceitar")
+    public ResponseEntity<Orcamento> aceitarOrcamento(@RequestParam("idMercado") Long idMercado, @RequestParam("idPlanoAlimentar") Long idPlanoAlimentar) {
         // Verifica se o orçamento enviado contém os IDs do Mercado e PlanoAlimentar.
-        if (orcamentoAceito.getMercado() == null || orcamentoAceito.getPlanoAlimentar() == null) {
+        if (idMercado == null || idPlanoAlimentar == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         // Obtenha o orçamento a ser aceito
-        Orcamento orcamentoExistente = orcamentoService.getOrcamentoById(orcamentoAceito.getMercado().getIdMercado(), orcamentoAceito.getPlanoAlimentar().getIdPlanoAlimentar());
+        Orcamento orcamentoExistente = orcamentoService.getOrcamentoById(idMercado, idPlanoAlimentar);
 
         if (orcamentoExistente == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -152,7 +173,7 @@ public class OrcamentoController {
         // Obtenha todos os outros orçamentos do mesmo plano que não sejam o orçamento aceito
         List<Orcamento> outrosOrcamentos = orcamentoService.getOrcamentosByPlanoAlimentarId(planoAlimentar.getIdPlanoAlimentar());
         for (Orcamento orcamento : outrosOrcamentos) {
-            if (!orcamento.getMercado().getIdMercado().equals(orcamentoAceito.getMercado().getIdMercado())) {
+            if (!orcamento.getMercado().getIdMercado().equals(idMercado)) {
                 // Atualize o status de outros orçamentos do mesmo plano para "negado"
                 orcamento.setStatus("NEGADO");
                 orcamentoService.updateOrcamento(orcamento.getMercado().getIdMercado(), orcamento.getPlanoAlimentar().getIdPlanoAlimentar(), orcamento);
@@ -160,12 +181,13 @@ public class OrcamentoController {
         }
         return new ResponseEntity<>(orcamentoExistente, HttpStatus.OK);
     }
-
+    /*
+    Rota para buscar todos os planos alimentares pendentes do cliente X com orçamentos pendentes de orçamento
+     */
     @GetMapping("/cliente/{clienteId}/orcamentos-pendentes-planos")
     public ResponseEntity<List<Orcamento>> getOrcamentosPendentesPlanos(@PathVariable Long clienteId) {
         // Primeiro, você pode obter o cliente pelo ID
         Cliente cliente = clienteService.getClienteById(clienteId);
-
         if (cliente == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
